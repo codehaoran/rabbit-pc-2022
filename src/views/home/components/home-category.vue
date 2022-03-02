@@ -1,19 +1,81 @@
 <template>
   <div class='home-category'>
     <ul class="menu">
-      <li v-for="i in 10" :key="i">
-        <RouterLink to="/">居家</RouterLink>
-        <RouterLink to="/">洗漱</RouterLink>
-        <RouterLink to="/">清洁</RouterLink>
+      <li v-for="item in menuList" :key="item.id">
+        <RouterLink :to="`/category/${item.id}`">{{item.name}}</RouterLink>
+        <template v-if="item.children">
+          <RouterLink
+            :to="`/category/sub/${itemChildren.id}`"
+            v-for="itemChildren in item.children"
+            :key="itemChildren.id"
+          >{{itemChildren.name}}</RouterLink>
+        </template>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { useStore } from 'vuex'
+import { computed, reactive } from 'vue'
+
 export default {
-  name: 'HomeCategory'
+  name: 'HomeCategory',
+  setup () {
+    const store = useStore()
+    // 品牌推荐
+    const brand = reactive({
+      id: 'brand',
+      name: '品牌',
+      children: [{ id: 'brand-children', name: '品牌推荐' }]
+    })
+    // 使用的数据:9个分类(每个分类后面要两个子分类)+1个品牌
+    const menuList = computed(() => {
+      const list = store.state.category.list.map(item => {
+        return {
+          id: item.id,
+          name: item.name,
+          goods: item.goods,
+          children: item.children && item.children.slice(0, 2)
+          // children: item.children.slice(0, 2)
+        }
+      })
+      list.push(brand)
+      return list
+    })
+
+    return {
+      menuList
+    }
+  }
 }
 </script>
 
-<style scoped lang='less'></style>
+<style scoped lang='less'>
+@import "src/assets/styles/mixins";
+@import "src/assets/styles/variables.less";
+.home-category {
+  width: 250px;
+  height: 500px;
+  background: rgba(0,0,0,0.8);
+  position: relative;
+  z-index: 99;
+  .menu {
+    li {
+      padding-left: 40px;
+      height: 50px;
+      line-height: 50px;
+      &:hover {
+        background: @xtxColor;
+      }
+      a {
+        margin-right: 4px;
+        color: #fff;
+        &:first-child {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+</style>

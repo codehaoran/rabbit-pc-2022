@@ -14,7 +14,6 @@ export default {
     const sliders = ref([])
     findBanner().then(data => {
       sliders.value = data.result
-      console.log(sliders.value)
     })
     return { sliders }
   }

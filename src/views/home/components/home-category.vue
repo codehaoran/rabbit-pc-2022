@@ -10,6 +10,10 @@
             :key="itemChildren.id"
           >{{itemChildren.name}}</RouterLink>
         </template>
+        <template v-else>
+          <XtxSkeleton width="60px" height="20px" bg="rgba(255,255,255,0.2)" style="margin-right: 10px;" />
+          <XtxSkeleton width="60px" height="20px" bg="rgba(255,255,255,0.2)" />
+        </template>
       </li>
     </ul>
 
@@ -53,9 +57,11 @@
 import { useStore } from 'vuex'
 import { computed, reactive, ref } from 'vue'
 import { findBrand } from '@/api/home'
+// import XtxSkeleton from '@/components/library/xtx-skeleton'
 
 export default {
   name: 'HomeCategory',
+  // components: { XtxSkeleton },
   setup () {
     const store = useStore()
     // 品牌推荐
@@ -220,5 +226,16 @@ export default {
     }
   }
 }
-
+// 骨架效果
+.xtx-skeleton {
+  animation: fade 1s linear infinite alternate;
+}
+@keyframes fade {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 1;
+  }
+}
 </style>

@@ -9,22 +9,25 @@
     </div>
   </div>
 <!--  新鲜好物-->
+<HomeNew />
 <!--  人气推荐-->
+  <HomeHot />
 </template>
 
 <script>
 import HomeCategory from './components/home-category'
 import HomeBanner from './components/home-banner'
+import HomeNew from './components/home-new'
+import HomeHot from './components/home-hot'
 export default {
   components: {
     HomeCategory,
-    HomeBanner
+    HomeBanner,
+    HomeNew,
+    HomeHot
   }
 }
 </script>
 
 <style lang="less" scoped>
-@import "src/assets/styles/mixins";
-@import "src/assets/styles/variables.less";
-
 </style>

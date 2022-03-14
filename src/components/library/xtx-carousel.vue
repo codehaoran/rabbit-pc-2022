@@ -1,5 +1,5 @@
 <template>
-  <div class='xtx-carousel'>
+  <div class='xtx-carousel' @mouseenter="stop()" @mouseleave="start()">
     <ul class="carousel-body">
       <li class="carousel-item" v-for="(item, i) in sliders" :key="i" :class="{fade: index === i}">
         <RouterLink to="/">
@@ -7,16 +7,16 @@
         </RouterLink>
       </li>
     </ul>
-    <a href="javascript:;" class="carousel-btn prev"><i class="iconfont icon-angle-left" @click="index--"></i></a>
-    <a href="javascript:;" @click="index++" class="carousel-btn next"><i class="iconfont icon-angle-right"></i></a>
+    <a href="javascript:;" @click="toggle(-1)" class="carousel-btn prev"><i class="iconfont icon-angle-left">&lt;</i></a>
+    <a href="javascript:;" @click="toggle(1)" class="carousel-btn next"><i class="iconfont icon-angle-right">&gt;</i></a>
     <div class="carousel-indicator">
-      <span v-for="(item, i) in sliders" :key="i" :class="{active:index===i}"></span>
+      <span @click="index=i" v-for="(item, i) in sliders" :key="i" :class="{active:index===i}"></span>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { onUnmounted, ref, watch } from 'vue'
 
 export default {
   name: 'XtxCarousel',
@@ -33,31 +33,45 @@ export default {
     },
     // 自动轮播的间隔时间
     duration: {
-      type: Number,
-      default: 3
+      type: String,
+      default: '1000'
     }
   },
   setup (props) {
     // 控制显示图片的索引
     const index = ref(0)
-    // eslint-disable-next-line no-unused-vars
+    // 1.自动轮播图
     let timer = null
     const autoPlayFn = () => {
       // 自动轮播定时器
       timer = setInterval(() => {
         index.value++
-        if (index.value >= props.sliders.length) {
-          index.value = 0
-        }
-      }, props.duration)
+        if (index.value >= props.sliders.length) index.value = 0
+      }, Number(props.duration))
     }
     // 监听sliders数据变化，判断autoPlay是true
-    watch(() => props.sliders, (newValue, oldValue) => {
-      if (newValue.length && props.autoPlay) {
-        autoPlayFn()
-      }
+    watch(() => props.sliders, (newValue) => {
+      if (newValue.length && props.autoPlay) autoPlayFn()
+    }, { immediate: true })
+
+    // 2.鼠标进入自动轮播暂停，离开启用自动轮播(有判断条件)
+    const stop = () => {
+      if (timer) clearInterval(timer)
+    }
+    const start = () => {
+      if (props.autoPlay && props.sliders.length) autoPlayFn()
+    }
+    // 3.单击左右两边按钮进行切换
+    const toggle = (num) => {
+      index.value += num
+      if (index.value >= props.sliders.length) index.value = 0
+      if (index.value < 0) index.value = props.sliders.length - 1
+    }
+    // 组件销毁清除计时器
+    onUnmounted(() => {
+      clearInterval(timer)
     })
-    return { index }
+    return { index, stop, start, toggle }
   }
 }
 </script>

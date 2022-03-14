@@ -17,3 +17,19 @@ export const findBrand = (limit = 6) => {
 export const findBanner = () => {
   return request('/home/banner', 'get')
 }
+
+/**
+ * 获取新鲜好物
+ * @returns {*|AxiosPromise}
+ */
+export const findNew = () => {
+  return request('/home/new', 'get')
+}
+
+/**
+ * 获取热门商品
+ * @returns {*|AxiosPromise}
+ */
+export const findHot = () => {
+  return request('/home/hot', 'get')
+}

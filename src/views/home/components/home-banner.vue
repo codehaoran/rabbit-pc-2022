@@ -1,6 +1,6 @@
 <template>
   <div class="home-banner">
-    <XtxCarousel :sliders="sliders" />
+    <XtxCarousel auto-play duration='3000' :sliders="sliders" />
   </div>
 </template>
 

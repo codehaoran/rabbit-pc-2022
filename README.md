@@ -1,4 +1,5 @@
 # eribbit-pc
+## 此项目只做学习使用
 
 ## Project setup
 ```

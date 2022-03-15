@@ -7,8 +7,8 @@
         </RouterLink>
       </li>
     </ul>
-    <a href="javascript:;" @click="toggle(-1)" class="carousel-btn prev"><i class="iconfont icon-angle-left">&lt;</i></a>
-    <a href="javascript:;" @click="toggle(1)" class="carousel-btn next"><i class="iconfont icon-angle-right">&gt;</i></a>
+    <a href="javascript:;" @click="toggle(-1)" class="carousel-btn prev"><i class="iconfont icon-angle-left"></i></a>
+    <a href="javascript:;" @click="toggle(1)" class="carousel-btn next"><i class="iconfont icon-angle-right"></i></a>
     <div class="carousel-indicator">
       <span @click="index=i" v-for="(item, i) in sliders" :key="i" :class="{active:index===i}"></span>
     </div>

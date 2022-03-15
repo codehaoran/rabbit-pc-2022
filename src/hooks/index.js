@@ -7,8 +7,9 @@ import { ref } from 'vue'
  * @param {Element} target DOM对象
  * @param {Function} apiFn api函数
  */
-export const useLazyData = (target, apiFn) => {
+export const useLazyData = apiFn => {
   const result = ref([])
+  const target = ref(null)
   // stop 停止观察
   const { stop } = useIntersectionObserver(
     // 监听的目标
@@ -24,5 +25,5 @@ export const useLazyData = (target, apiFn) => {
       }
     }
   )
-  return result
+  return { result, target }
 }

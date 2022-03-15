@@ -18,7 +18,6 @@
 <script>
 import HomePanel from './home-panel'
 import HomeSkeleton from './home-skeleton'
-import { ref } from 'vue'
 import { findHot } from '@/api/home'
 import { useLazyData } from '@/hooks'
 
@@ -29,8 +28,8 @@ export default {
     // findHot().then(data => {
     //   goods.value = data.result
     // })
-    const target = ref(null)
-    const result = useLazyData(target, findHot)
+    // const target = ref(null)
+    const { result, target } = useLazyData(findHot)
     return { goods: result, target }
   },
   components: {

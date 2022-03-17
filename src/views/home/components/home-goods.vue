@@ -1,7 +1,7 @@
 <template>
   <div class="goods-item">
     <RouterLink :to="`/product/${goods.id}`" class="image">
-      <img :src="goods.picture" alt="" />
+      <img v-lazy="goods.picture" alt="" />
     </RouterLink>
     <p class="name ellipsis-2">{{goods.name}}</p>
     <p class="desc ellipsis">{{goods.desc}}</p>
@@ -22,9 +22,6 @@ export default {
     goods: {
       type: Object
     }
-  },
-  setup (props) {
-    console.log(props.goods)
   }
 }
 </script>

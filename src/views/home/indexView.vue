@@ -16,6 +16,8 @@
   <HomeBrand />
 <!--  商品区块-->
   <HomeProduct />
+<!--  最新专题-->
+  <HomeSecial />
 </template>
 
 <script>
@@ -25,6 +27,7 @@ import HomeNew from './components/home-new'
 import HomeHot from './components/home-hot'
 import HomeBrand from './components/home-brand'
 import HomeProduct from './components/home-product'
+import HomeSecial from './components/home-special'
 export default {
   components: {
     HomeCategory,
@@ -32,7 +35,8 @@ export default {
     HomeNew,
     HomeHot,
     HomeBrand,
-    HomeProduct
+    HomeProduct,
+    HomeSecial
   }
 }
 </script>

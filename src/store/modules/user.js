@@ -11,7 +11,7 @@ export default {
         nickname: '',
         account: '13234',
         mobile: '1',
-        token: '1'
+        token: ''
       }
     }
   },

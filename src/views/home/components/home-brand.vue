@@ -98,6 +98,7 @@ export default {
     li {
       margin-right: 10px;
       width: 240px;
+      .hoverShadow();
       &:nth-child(5n) {
         margin-right: 0;
       }

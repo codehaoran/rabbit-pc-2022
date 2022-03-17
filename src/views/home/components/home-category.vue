@@ -16,7 +16,6 @@
         </template>
       </li>
     </ul>
-F
 <!--    弹层-->
 <!--    商品分类结构-->
     <div class="layer">

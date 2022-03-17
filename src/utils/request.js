@@ -41,7 +41,7 @@ instance.interceptors.response.use(res => res.data, err => {
     store.commit('user/setUser', {})
     // 当前路由地址
     // 组件里头：`/user?a=10` $route.path === /user  $route.fullPath === /user?a=10
-    // js模块中：router.currentRoute.value.fullPath 就是当前路由地址，router.currentRoute 是ref响应式数据
+    // js模块中：router.currentRoute.value.fullPath 就是当前路由地址，router.currentRoute 是ref响应式数据i
     const fullPath = encodeURIComponent(router.currentRoute.value.fullPath)
     // encodeURIComponent 转换uri编码，防止解析地址出问题
     router.push('/login?redirectUrl=' + fullPath)

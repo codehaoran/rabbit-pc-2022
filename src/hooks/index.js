@@ -7,6 +7,7 @@ import { ref } from 'vue'
  * @param {Element} target DOM对象
  * @param {Function} apiFn api函数
  */
+// 传入api
 export const useLazyData = apiFn => {
   const result = ref([])
   const target = ref(null)
@@ -14,6 +15,8 @@ export const useLazyData = apiFn => {
   const { stop } = useIntersectionObserver(
     // 监听的目标
     target,
+    // isIntersecting 用来判断是否进入可视区
+    // observerElement 被监听的DOM
     ([{ isIntersecting }], observerElement) => {
       // isIntersecting 是否进入可视区
       if (isIntersecting) {

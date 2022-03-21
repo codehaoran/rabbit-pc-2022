@@ -1,14 +1,14 @@
 <template>
   <ul class="app-header-nav">
     <li class="home"><RouterLink to="/">首页</RouterLink></li>
-    <li v-for="item in list" :key="item.id" @mouseenter="showFn(item.id)" @mouseleave="hideFn(item.id)" >
-      <RouterLink @click="hideFn(item.id)" :to="`/category/${item.id}`">{{item.name}}</RouterLink>
-      <div class="layer" :class="{open: item.open}">
+    <li v-for="item in list" :key="item.id" @mousemove="show(item)" @mouseleave="hide(item)">
+      <RouterLink @click="hide(item)" :to="`/category/${item.id}`">{{item.name}}</RouterLink>
+      <div class="layer" :class="{open:item.open}">
         <ul>
-          <li v-for="itemSon in item.children" :key="itemSon.id">
-            <RouterLink @click="hideFn(item.id)" :to="`/category/sub/${itemSon.id}`">
-              <img :src="itemSon.picture" alt="">
-              <p>{{itemSon.name}}</p>
+          <li v-for="sub in item.children" :key="sub.id">
+            <RouterLink  @click="hide(item)" :to="`/category/sub/${sub.id}`">
+              <img :src="sub.picture" alt="">
+              <p>{{sub.name}}</p>
             </RouterLink>
           </li>
         </ul>
@@ -16,35 +16,32 @@
     </li>
   </ul>
 </template>
-
 <script>
-import { useStore } from 'vuex'
 import { computed } from 'vue'
+import { useStore } from 'vuex'
 export default {
-  name: 'app-header-nav',
+  name: 'AppHeaderNav',
   setup () {
     const store = useStore()
+    // 拿到vuex中的分类列表
     const list = computed(() => {
       return store.state.category.list
     })
 
     // 跳转的时候不会关闭二级类目，通过数据来控制
-    // 1.vuex每个分类加上open数据
-    // 2.vuex提供显示和影藏的函数，修改open数据
-    // 3.在组件中使用vuex中的函数，提供一个用来显示隐藏的类名
-    const showFn = (id) => {
-      store.commit('category/show', id)
+    // 1. vuex每个分类加上open数据
+    // 2. vuex提供显示和隐藏函数，修改open数据
+    // 3. 组件中使用vuex中的函数，使用时间来绑定，提供一个类名显示隐藏的类名
+    const show = (item) => {
+      store.commit('category/show', item.id)
     }
-    const hideFn = (id) => {
-      store.commit('category/hide', id)
+    const hide = (item) => {
+      store.commit('category/hide', item.id)
     }
-    return {
-      list, showFn, hideFn
-    }
+    return { list, show, hide }
   }
 }
 </script>
-
 <style scoped lang="less">
 @import "src/assets/styles/mixins";
 @import "src/assets/styles/variables.less";
@@ -54,6 +51,7 @@ export default {
   justify-content: space-around;
   padding-left: 40px;
   position: relative;
+  z-index: 999;
   > li {
     margin-right: 40px;
     width: 38px;
@@ -69,15 +67,15 @@ export default {
         color: @xtxColor;
         border-bottom: 1px solid @xtxColor;
       }
-      > .layer {
-        //height: 132px;
-        //opacity: 1;
-      }
+      // 显示二级类目
+      // > .layer {
+      //   height: 132px;
+      //   opacity: 1;
+      // }
     }
   }
 }
-
-// 二级菜单样式
+// 二级类名弹层
 .layer {
   &.open {
     height: 132px;

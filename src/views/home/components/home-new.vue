@@ -27,11 +27,6 @@ import HomeSkeleton from './home-skeleton'
 export default {
   name: 'home-new',
   setup () {
-    // const goods = ref([])
-    // findNew().then(data => {
-    //   goods.value = data.result
-    // })
-    // const { target } = ref(null)
     const { result, target } = useLazyData(findNew)
     return {
       goods: result,

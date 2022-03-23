@@ -13,15 +13,12 @@
   <!-- 底部 -->
   <AppFooter />
 </template>
-/*eslint-disable*/
 <script>
-// import AppNavbar from '@/components/app-navbar.vue'
 import AppNavbar from '@/components/app-navbar.vue'
 import AppHeader from '@/components/app-header.vue'
 import AppHeaderSticky from '@/components/app-header-sticky.vue'
 import AppFooter from '@/components/app-footer.vue'
 
-// import { onMounted } from 'vue'
 import { useStore } from 'vuex'
 export default {
   setup () {

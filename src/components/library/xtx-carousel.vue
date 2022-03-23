@@ -34,7 +34,7 @@ export default {
     // 自动轮播的间隔时间
     duration: {
       type: String,
-      default: '1000'
+      default: '5000'
     }
   },
   setup (props) {

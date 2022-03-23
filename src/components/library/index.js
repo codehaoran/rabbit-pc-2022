@@ -11,7 +11,7 @@ import defaultImg from '@/assets/images/200.png'
 
 // context() 参数：1.目录 2.是否加载子目录 3.文件匹配 正则
 const importFn = require.context('./', false, /\.vue$/)
-console.log(importFn.keys())
+// console.log(importFn.keys())
 export default {
   install (app) {
     // 在app上进行扩展，app提高component directive
@@ -25,7 +25,7 @@ export default {
     importFn.keys().forEach(key => {
       // 导入组件
       const component = importFn(key).default
-      console.log(component)
+      // console.log(component)
       // 注册组件
       app.component(component.name, component)
     })

@@ -53,4 +53,7 @@ export default {
     line-height: 22px;
   }
 }
+span{
+  color: @xtxColor;
+ }
 </style>

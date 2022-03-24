@@ -4,7 +4,9 @@
       <!-- 面包屑 -->
       <XtxBread>
         <XtxBreadItem to="/">首页</XtxBreadItem>
-        <XtxBreadItem>{{topCategory.name}}</XtxBreadItem>
+        <Transition name="fade-right" mode="out-in">
+          <XtxBreadItem :key="topCategory.id">{{topCategory.name}}</XtxBreadItem>
+        </Transition>
       </XtxBread>
       <!-- 轮播图 -->
       <XtxCarousel :sliders="sliders" style="height:500px" autoPlay />
@@ -65,11 +67,13 @@ export default {
     // subList.value = result
     const getSubList = () => {
       findTopCategory(route.params.id).then(data => {
+        console.log(data)
         subList.value = data.result.children
       })
     }
     watch(() => route.params.id, (newVal) => {
-      newVal && getSubList()
+      // 判断新跳转的地址是否与顶级类目的路径相同 避免子类目跳转也请求
+      if (newVal && `/category/${newVal}` === route.path) getSubList()
     }, { immediate: true })
     return { sliders, topCategory, subList }
   },
@@ -82,6 +86,7 @@ export default {
 <style scoped lang="less">
 @import "src/assets/styles/mixins";
 @import "src/assets/styles/variables.less";
+
 .top-category {
   h3 {
     font-size: 28px;

@@ -4,14 +4,14 @@
       <!-- 面包屑 -->
       <XtxBread>
         <XtxBreadItem to="/">首页</XtxBreadItem>
-        <XtxBreadItem v-if="topCategory">{{topCategory.name}}</XtxBreadItem>
+        <XtxBreadItem>{{topCategory.name}}</XtxBreadItem>
       </XtxBread>
       <!-- 轮播图 -->
       <XtxCarousel :sliders="sliders" style="height:500px" autoPlay />
       <!-- 所有二级分类 -->
       <div class="sub-list">
         <h3>全部分类</h3>
-        <ul v-if="topCategory">
+        <ul>
           <li v-for="item in topCategory.children" :key="item.id">
             <a href="javascript:;">
               <img :src="item.picture" >
@@ -21,15 +21,27 @@
         </ul>
       </div>
     <!--各个分类下的推荐商品-->
+      <div v-for="item in subList" :key="item.id" class="ref-goods">
+        <div class="head">
+          <h3>- {{ item.name }} -</h3>
+          <p class="tag">温暖柔软，品质之选</p>
+          <XtxMore :path="`/category/sub/${item.id}`" />
+        </div>
+        <div class="body">
+          <GoodsItem v-for="goods in item.goods" :key="goods.id" :goods="goods" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { useRoute } from 'vue-router'
-import { computed, ref } from 'vue'
-import { findBanner } from '@/api/home'
+import { computed, ref, watch } from 'vue'
+import { findBanner, findTopCategory } from '@/api/home'
 import { useStore } from 'vuex'
+import GoodsItem from './components/goods-item.vue'
+
 export default {
   name: 'TopCategory',
   setup () {
@@ -39,16 +51,30 @@ export default {
       sliders.value = data.result
     })
     // 面包屑+所有子分类
-    // eslint-disable-next-line no-unused-vars
     const route = useRoute()
     const store = useStore()
     const topCategory = computed(() => {
-      return store.state.category.list.find(item => {
-        console.log(item)
+      const item = store.state.category.list.find(item => {
         return item.id === route.params.id
       })
+      if (item) return item
+      else return {}
     })
-    return { sliders, topCategory }
+    // 获取各个子类目下推荐商品
+    const subList = ref({})
+    // subList.value = result
+    const getSubList = () => {
+      findTopCategory(route.params.id).then(data => {
+        subList.value = data.result.children
+      })
+    }
+    watch(() => route.params.id, (newVal) => {
+      newVal && getSubList()
+    }, { immediate: true })
+    return { sliders, topCategory, subList }
+  },
+  components: {
+    GoodsItem
   }
 }
 </script>
@@ -90,6 +116,31 @@ export default {
           }
         }
       }
+    }
+  }
+  .ref-goods {
+    background-color: #fff;
+    margin-top: 20px;
+    position: relative;
+    .head {
+      .xtx-more {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
+      .tag {
+        text-align: center;
+        color: #999;
+        font-size: 20px;
+        position: relative;
+        top: -20px;
+      }
+    }
+    .body {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      padding: 0 65px 30px;
     }
   }
 }

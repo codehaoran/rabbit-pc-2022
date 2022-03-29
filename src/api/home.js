@@ -49,12 +49,3 @@ export const findGoods = () => {
 export const findSpecial = () => {
   return request('/home/special', 'get')
 }
-
-/**
- * 获取顶级类目信息
- * @param  {String} id
- * @returns {*|AxiosPromise}
- */
-export const findTopCategory = (id) => {
-  return request('category', 'get', { id })
-}

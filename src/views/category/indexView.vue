@@ -40,7 +40,8 @@
 <script>
 import { useRoute } from 'vue-router'
 import { computed, ref, watch } from 'vue'
-import { findBanner, findTopCategory } from '@/api/home'
+import { findBanner } from '@/api/home'
+import { findTopCategory } from '@/api/category'
 import { useStore } from 'vuex'
 import GoodsItem from './components/goods-item.vue'
 

@@ -15,8 +15,8 @@
       </a>
     </div>
     <div class="check">
-      <XtxCheckbox v-model="sortParams.inventory">仅显示有货商品</XtxCheckbox>
-      <XtxCheckbox v-model="sortParams.onlyDiscount">仅显示特惠商品</XtxCheckbox>
+      <XtxCheckbox @change="changeCheck()" v-model="sortParams.inventory">仅显示有货商品</XtxCheckbox>
+      <XtxCheckbox @change="changeCheck()" v-model="sortParams.onlyDiscount">仅显示特惠商品</XtxCheckbox>
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@ import { reactive } from 'vue'
 
 export default {
   name: 'SubSort',
-  setup () {
+  setup (props, { emit }) {
     // 实现交互
     // 1.明确交互数据
     const sortParams = reactive({
@@ -51,10 +51,16 @@ export default {
         sortParams.sortMethod = null
         sortParams.sortField = sortField
       }
+      // 排序告诉subView
+      emit('sort-change', sortParams)
+    }
+    const changeCheck = () => {
+      emit('sort-change', sortParams)
     }
     return {
       sortParams,
-      changeSort
+      changeSort,
+      changeCheck
     }
   }
 }

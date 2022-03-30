@@ -4,11 +4,11 @@
       <!-- 面包屑 -->
       <SubBread></SubBread>
       <!-- 筛选区 -->
-      <SubFilter></SubFilter>
+      <SubFilter @filter-change="filterChange"></SubFilter>
       <!-- 商品面板(排序+列表) -->
       <div class="goods-list">
         <!-- 排序 -->
-        <SubSort></SubSort>
+        <SubSort @sort-change="sortChange"></SubSort>
         <!-- 列表 -->
         <ul>
           <li v-for="goods in goodsList" :key="goods.id">
@@ -79,11 +79,24 @@ export default {
         }
       }
     }, { immediate: true })
+    // 更改排序组件的筛选数据，要重新请求
+    const sortChange = (sortParams) => {
+      finished.value = false
+      goodsList.value = []
+      requestParams = { ...requestParams, ...sortParams }
+      requestParams.page = 1
+    }
+    // 更改筛选组件的筛选数据，要重新请求
+    const filterChange = (filterParams) => {
+      console.log(filterParams)
+    }
     return {
+      sortChange,
       getData,
       loading,
       finished,
-      goodsList
+      goodsList,
+      filterChange
     }
   }
 }

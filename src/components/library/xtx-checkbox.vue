@@ -18,8 +18,10 @@ export default {
   },
   setup (props, { emit }) {
     const checked = useVModel(props, 'modelValue', emit)
-    const changeChecked = () => {
+    const changeChecked = (newVal) => {
       checked.value = !checked.value
+      // checked.value = newVal
+      emit('change', newVal)
     }
     return { checked, changeChecked }
   }

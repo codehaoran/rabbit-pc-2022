@@ -27,7 +27,7 @@ export default {
       default: () => []
     }
   },
-  setup (props) {
+  setup () {
     const currIndex = ref(0)
     // 是否显示遮罩层和大图
     const show = ref(false)
